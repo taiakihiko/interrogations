@@ -329,14 +329,5 @@ def evaluate(case_id: str):
 
 
 if __name__ == "__main__":
-
-    #for i in CASE["available_evidence"]:
-    #    print(
-    #        "証拠番号：{}\n内容：{}\n制約：{}\n".format(
-    #            i["id"], i["fact"], i["limitation"]
-    #        )
-    #    )
-    #exit()
-
     for case_id in INTERROGATIONS:
         evaluate(case_id)
