@@ -1,0 +1,4 @@
+openai
+anthropic
+typesafe-sdk
+markdown-it-py
