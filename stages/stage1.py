@@ -1,6 +1,6 @@
 from typesafe_sdk import Score, Noul
 
-INIT_MESSAGE = """
+LLM_INIT_MESSAGE = """
 
 ## 事件の概要 (共通情報)
 
@@ -23,7 +23,7 @@ INIT_MESSAGE = """
 佐藤は22:35に研究所を退館した。
 """
 
-INSTRUCTIONS = """
+LLM_INSTRUCTIONS = """
 あなたは取り調べを受けている容疑者・佐藤である。
 あなたは真犯人だが、罪を免れるため、無罪を主張すること。
 事件の真相とは異なる嘘を付いてよい。一回の発言は500文字以内にすること。
@@ -106,7 +106,7 @@ AVAILABLE_EVIDENCE = [
     },
 ]
 
-QUESTIONS_NAMES = {
+JEV_QUESTIONS_NAMES = {
     "alibi": "アリバイ否定度",
     "contradiction": "証拠と供述の矛盾の指摘",
     "truth": "真相把握",
@@ -115,7 +115,7 @@ QUESTIONS_NAMES = {
     "proved_guilt": "有罪の証明度",
 }
 
-QUESTIONS = {
+JEV_QUESTIONS = {
     "alibi": Score(
         instructions=(
             "刑事は、被疑者のアリバイが成立しないことを"

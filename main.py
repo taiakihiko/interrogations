@@ -31,7 +31,7 @@ def main():
             "input": [
                 {
                     "role": "developer",
-                    "content": stage.INIT_MESSAGE,
+                    "content": stage.LLM_INIT_MESSAGE,
                 }
             ],
         }
@@ -54,7 +54,7 @@ def main():
             {
                 "model": args.model,
                 "input": s,
-                "instructions": stage.INSTRUCTIONS,
+                "instructions": stage.LLM_INSTRUCTIONS,
                 "previous_response_id": previous_response_id,
             }
         )
@@ -89,7 +89,7 @@ def parse_args():
 def evaluate(stage: ModuleType, history: list[tuple]):
     state = {
         "case": {
-            "incident": stage.INIT_MESSAGE,
+            "incident": stage.LLM_INIT_MESSAGE,
             "available_evidence": stage.AVAILABLE_EVIDENCE,
             "evaluation_rules": stage.EVALUATION_RULES,
         },
@@ -102,13 +102,13 @@ def evaluate(stage: ModuleType, history: list[tuple]):
     with TypeSafeClient() as type_safe_client:
         response = type_safe_client.system_one(
             state=state,
-            questions=stage.QUESTIONS,
+            questions=stage.JEV_QUESTIONS,
         )
 
     color.code(color.WHITE)
     print(f"\n=== Judgement  ===")
     for name, result in response.scores.items():
-        question_name = stage.QUESTIONS_NAMES[name]
+        question_name = stage.JEV_QUESTIONS_NAMES[name]
         print(f"{question_name} ({name})")
         print(
             f"score={result.score:.3f} "
@@ -118,7 +118,7 @@ def evaluate(stage: ModuleType, history: list[tuple]):
         print("")
 
     print(
-        "proved_guilt: 有罪の証明度",
+        "proved_guilt: " + stage.JEV_QUESTIONS_NAMES["proved_guilt"],
         response.nouls["proved_guilt"].noul,
     )
     color.code(color.CYAN)
