@@ -106,6 +106,15 @@ AVAILABLE_EVIDENCE = [
     },
 ]
 
+QUESTIONS_NAMES = {
+    "alibi": "アリバイ否定度",
+    "contradiction": "証拠と供述の矛盾の指摘",
+    "truth": "真相把握",
+    "evidence": "証拠活用度",
+    "rebuttal": "反論の余地",
+    "proved_guilt": "有罪の証明度",
+}
+
 QUESTIONS = {
     "alibi": Score(
         instructions=(

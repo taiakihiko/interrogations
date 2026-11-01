@@ -38,6 +38,9 @@ def main():
     )
     previous_response_id = response.id
 
+    # TODO: プレイヤーに証拠等を見せる処理は今は省略
+    # TODO: プレイヤーの発話量に制限が必要。今は雑に2ターンに制限。
+
     for i in range(2):
 
         color.code(color.GREEN)
@@ -105,8 +108,8 @@ def evaluate(stage: ModuleType, history: list[tuple]):
     color.code(color.WHITE)
     print(f"\n=== Judgement  ===")
     for name, result in response.scores.items():
-        q = stage.QUESTIONS[name]
-        print(f"{name}: {q.instructions}")
+        question_name = stage.QUESTIONS_NAMES[name]
+        print(f"{question_name} ({name})")
         print(
             f"score={result.score:.3f} "
             f"confidence={result.confidence:.3f} "
