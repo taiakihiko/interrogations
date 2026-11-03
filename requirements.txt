@@ -2,3 +2,4 @@ openai
 anthropic
 typesafe-sdk
 markdown-it-py
+python-dotenv

@@ -1,6 +1,7 @@
 import os
 import importlib
 from argparse import ArgumentParser
+from dotenv import load_dotenv
 from types import ModuleType
 
 from openai import OpenAI
@@ -10,6 +11,7 @@ from typesafe_sdk import TypeSafeClient, Score, Noul
 import ansi_color as color
 
 
+load_dotenv()
 openai_client = OpenAI()
 
 def main():
