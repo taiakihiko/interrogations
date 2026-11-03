@@ -15,14 +15,15 @@ openai_client = OpenAI()
 def main():
     args = parse_args()
     color.code(color.GRAY)
-    print("model:", args.model, "\n")
+    print("model:", args.model)
 
     try:
         stage = importlib.import_module(f"stages.stage{args.stage}")
     except ModuleNotFoundError:
         exit("stage module not found")
 
-    history: list[tuple] = []
+    color.code(color.WHITE)
+    print(stage.COMMON_FACTS)
 
     color.code(color.YELLOW)
     print("--- 初期化応答 ---")
@@ -32,15 +33,16 @@ def main():
             "input": [
                 {
                     "role": "developer",
-                    "content": stage.LLM_INIT_MESSAGE,
+                    "content": stage.COMMON_FACTS + stage.HIDDEN_TRUTH,
                 }
             ],
         }
     )
     previous_response_id = response.id
 
-    # TODO: プレイヤーに証拠等を見せる処理は今は省略
-    # TODO: プレイヤーの発話量に制限が必要。今は雑に2ターンに制限。
+    # TODO: プレイヤーの発話量に制限が必要。今は雑にターン数だけ制限。
+
+    history: list[tuple] = []
 
     for i in range(args.turn):
 
@@ -91,7 +93,7 @@ def parse_args():
 def evaluate(stage: ModuleType, history: list[tuple]):
     state = {
         "case": {
-            "incident": stage.LLM_INIT_MESSAGE,
+            "incident": stage.COMMON_FACTS + stage.HIDDEN_TRUTH,
             "available_evidence": stage.AVAILABLE_EVIDENCE,
             "evaluation_rules": stage.EVALUATION_RULES,
         },

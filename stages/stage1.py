@@ -1,12 +1,13 @@
 from typesafe_sdk import Score, Noul
 
-LLM_INIT_MESSAGE = """
-
+COMMON_FACTS = """
 ## 事件の概要 (共通情報)
 
 殺人事件が発生。日時は2026-10-10。現場は研究所で被害者は研究所長・田中。
 研究員・佐藤が容疑者となっている。
+"""
 
+HIDDEN_TRUTH = """
 ## 事件の真相 (犯人しか知らない)
 
 佐藤は真犯人である。
