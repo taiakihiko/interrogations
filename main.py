@@ -25,6 +25,7 @@ def main():
     history: list[tuple] = []
 
     color.code(color.YELLOW)
+    print("--- 非公式メッセージ ---")
     response = chat_stream(
         {
             "model": args.model,
@@ -41,7 +42,7 @@ def main():
     # TODO: プレイヤーに証拠等を見せる処理は今は省略
     # TODO: プレイヤーの発話量に制限が必要。今は雑に2ターンに制限。
 
-    for i in range(2):
+    for i in range(args.turn):
 
         color.code(color.GREEN)
         print(">> ", end="")
@@ -83,6 +84,7 @@ def parse_args():
     argparser = ArgumentParser()
     argparser.add_argument("-m", "--model", choices=models, default=models[0])
     argparser.add_argument("-s", "--stage", type=int, default=1)
+    argparser.add_argument("-t", "--turn", type=int, default=3)
     return argparser.parse_args()
 
 
@@ -109,7 +111,8 @@ def evaluate(stage: ModuleType, history: list[tuple]):
     print(f"\n=== Judgement  ===")
     for name, result in response.scores.items():
         question_name = stage.JEV_QUESTIONS_NAMES[name]
-        print(f"{question_name} ({name})")
+        socre_percent = result.score / (len(result.probabilities) - 1) * 100
+        print(f"{question_name} ({name}) : {socre_percent:.0f}%")
         print(
             f"score={result.score:.3f} "
             f"confidence={result.confidence:.3f} "
