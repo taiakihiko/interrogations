@@ -22,22 +22,22 @@ def main():
     except ModuleNotFoundError:
         exit("stage module not found")
 
-    color.code(color.WHITE)
-    print(stage.COMMON_FACTS)
-
-    color.code(color.YELLOW)
-    print("--- 初期化応答 ---")
-    response = chat_stream(
-        {
-            "model": args.model,
-            "input": [
-                {
-                    "role": "developer",
-                    "content": stage.COMMON_FACTS + stage.HIDDEN_TRUTH,
-                }
-            ],
-        }
-    )
+    initial_params = {
+        "model": args.model,
+        "input": [
+            {
+                "role": "developer",
+                "content": stage.COMMON_FACTS + stage.HIDDEN_TRUTH,
+            }
+        ],
+    }
+    if args.blind:
+        show_public_case_information(stage)
+        response = chat_silent(initial_params)
+    else:
+        color.code(color.YELLOW)
+        print("--- 初期化応答 ---")
+        response = chat_stream(initial_params)
     previous_response_id = response.id
 
     # TODO: プレイヤーの発話量に制限が必要。今は雑にターン数だけ制限。
@@ -67,6 +67,20 @@ def main():
     evaluate(stage, history)
 
 
+def show_public_case_information(stage: ModuleType):
+    color.code(color.WHITE)
+    print(stage.COMMON_FACTS)
+    print("## 証拠リスト\n")
+    for evidence in stage.AVAILABLE_EVIDENCE:
+        print(f"{evidence['id']}: {evidence['fact']}")
+        print(f"  限界: {evidence['limitation']}")
+    print("")
+
+
+def chat_silent(params: dict) -> Response:
+    return openai_client.responses.create(**params)
+
+
 def chat_stream(params: dict) -> Response:
     params["stream"] = True
     stream = openai_client.responses.create(**params)
@@ -87,6 +101,7 @@ def parse_args():
     argparser.add_argument("-m", "--model", choices=models, default=models[0])
     argparser.add_argument("-s", "--stage", type=int, default=1)
     argparser.add_argument("-t", "--turn", type=int, default=3)
+    argparser.add_argument("--blind", action="store_true")
     return argparser.parse_args()
 
 
