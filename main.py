@@ -25,7 +25,7 @@ def main():
     history: list[tuple] = []
 
     color.code(color.YELLOW)
-    print("--- 非公式メッセージ ---")
+    print("--- 初期化応答 ---")
     response = chat_stream(
         {
             "model": args.model,
@@ -112,7 +112,7 @@ def evaluate(stage: ModuleType, history: list[tuple]):
     for name, result in response.scores.items():
         question_name = stage.JEV_QUESTIONS_NAMES[name]
         socre_percent = result.score / (len(result.probabilities) - 1) * 100
-        print(f"{question_name} ({name}) : {socre_percent:.0f}%")
+        print(f"{question_name} ({name}): {socre_percent:.0f}%")
         print(
             f"score={result.score:.3f} "
             f"confidence={result.confidence:.3f} "
@@ -120,10 +120,10 @@ def evaluate(stage: ModuleType, history: list[tuple]):
         )
         print("")
 
-    print(
-        "proved_guilt: " + stage.JEV_QUESTIONS_NAMES["proved_guilt"],
-        response.nouls["proved_guilt"].noul,
-    )
+    print("{} (proved_guilt): {}%".format(
+        stage.JEV_QUESTIONS_NAMES["proved_guilt"],
+        int(response.nouls["proved_guilt"].noul * 100)
+    ))
     color.code(color.CYAN)
 
     return response
