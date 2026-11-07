@@ -102,7 +102,7 @@ def parse_args():
     argparser = ArgumentParser()
     argparser.add_argument("-m", "--model", choices=models, default=models[0])
     argparser.add_argument("-s", "--stage", type=int, default=1)
-    argparser.add_argument("-t", "--turn", type=int, default=3)
+    argparser.add_argument("-t", "--turn", type=int, default=6)
     argparser.add_argument("--blind", action="store_true")
     return argparser.parse_args()
 
