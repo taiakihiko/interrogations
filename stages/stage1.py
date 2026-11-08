@@ -24,6 +24,8 @@ HIDDEN_TRUTH = """
 佐藤は22:35に研究所を退館した。
 """
 
+SUSPECT_KNOWLEDGE = HIDDEN_TRUTH
+
 LLM_INSTRUCTIONS = """
 あなたは取り調べを受けている容疑者・佐藤である。
 あなたは真犯人だが、罪を免れるため、無罪を主張すること。

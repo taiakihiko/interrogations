@@ -29,7 +29,7 @@ def main():
         "input": [
             {
                 "role": "developer",
-                "content": stage.COMMON_FACTS + stage.HIDDEN_TRUTH,
+                "content": stage.COMMON_FACTS + stage.SUSPECT_KNOWLEDGE,
             }
         ],
     }
@@ -119,6 +119,8 @@ def evaluate(stage: ModuleType, history: list[tuple]):
             for role, content in history
         ],
     }
+    if stage.SUSPECT_KNOWLEDGE != stage.HIDDEN_TRUTH:
+        state["case"]["suspect_knowledge"] = stage.SUSPECT_KNOWLEDGE
 
     with TypeSafeClient() as type_safe_client:
         response = type_safe_client.system_one(
